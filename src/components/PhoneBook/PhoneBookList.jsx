@@ -1,18 +1,23 @@
 import React from 'react';
+import { deleteContacts } from '../../redux/myContacts/myContacts';
+import { useSelector, useDispatch } from 'react-redux';
+import { getVisibleContacts } from '../../redux/selectors/selectors';
 
-export default function PhoneBookList(props) {
-  const handleDelete = id => {
-    props.onDeleteContact(id);
-  };
+export default function PhoneBookList() {
+  const contacts = useSelector(getVisibleContacts);
+  const dispatch = useDispatch();
+
   return (
     <div>
       <ul>
-        {props.visibleContacts.map(item => (
+        {contacts.map(item => (
           <li key={item.id}>
             <p>
               {item.name}: {item.number}
             </p>
-            <button onClick={() => handleDelete(item.id)}>Delete</button>
+            <button onClick={() => dispatch(deleteContacts(item.id))}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>

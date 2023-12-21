@@ -1,33 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './PhoneBookForm.module.css';
-import { useSelector, useDispatch } from 'react-redux';
+
+import { getVisibleContacts } from '../../redux/selectors/selectors';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContacts } from '../../redux/myContacts/myContacts';
 import { nanoid } from 'nanoid';
-import { nameUsers, numberUsers } from '../../redux/myUsers/myUsers';
 
-export default function PhoneBookForm(props) {
+export default function PhoneBookForm() {
   const dispatch = useDispatch();
-  const name = useSelector(state => state.myUsers.name);
-  const number = useSelector(state => state.myUsers.number);
+
+  const contacts = useSelector(getVisibleContacts);
+
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
   const handleChangeName = evt => {
-    dispatch(nameUsers(evt.currentTarget.value));
+    setName(evt.currentTarget.value);
   };
 
   const handleChangeNumber = evt => {
-    dispatch(numberUsers(evt.currentTarget.value));
+    setNumber(evt.currentTarget.value);
   };
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    // props.onSubmit(name, number);
+    const normalizedName = name.toLowerCase();
+    const isAdded = contacts.find(
+      el => el.name.toLowerCase() === normalizedName
+    );
+
+    if (isAdded) {
+      alert(`${name}: is already in contacts`);
+      return;
+    }
     dispatch(addContacts({ id: nanoid(), name, number }));
     reset();
   };
 
   const reset = () => {
-    dispatch(nameUsers(''));
-    dispatch(numberUsers(''));
+    setName('');
+    setNumber('');
   };
 
   return (

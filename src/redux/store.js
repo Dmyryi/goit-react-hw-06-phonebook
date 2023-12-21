@@ -9,12 +9,10 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { clickReducer } from './myContacts/myContacts';
-import { userSlice } from './myUsers/myUsers';
 
 export const store = configureStore({
   reducer: {
     myContacts: clickReducer,
-    myUsers: userSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
