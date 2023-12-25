@@ -3,7 +3,7 @@ import styles from './PhoneBookForm.module.css';
 
 import { getVisibleContacts } from '../../redux/selectors/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContacts } from '../../redux/myContacts/myContacts';
+import { addContact } from '../../redux/contactShelf/contactsOperation';
 import { nanoid } from 'nanoid';
 
 export default function PhoneBookForm() {
@@ -12,14 +12,14 @@ export default function PhoneBookForm() {
   const contacts = useSelector(getVisibleContacts);
 
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleChangeName = evt => {
     setName(evt.currentTarget.value);
   };
 
   const handleChangeNumber = evt => {
-    setNumber(evt.currentTarget.value);
+    setPhone(evt.currentTarget.value);
   };
 
   const handleSubmit = evt => {
@@ -33,13 +33,13 @@ export default function PhoneBookForm() {
       alert(`${name}: is already in contacts`);
       return;
     }
-    dispatch(addContacts({ id: nanoid(), name, number }));
+    dispatch(addContact({ id: nanoid(), name, phone }));
     reset();
   };
 
   const reset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
@@ -58,8 +58,8 @@ export default function PhoneBookForm() {
         Number
         <input
           type="tel    "
-          name="number"
-          value={number}
+          name="phone"
+          value={phone}
           onChange={handleChangeNumber}
           required
         />
