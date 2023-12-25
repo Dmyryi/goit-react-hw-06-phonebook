@@ -1,4 +1,3 @@
-import * as contactsAction from './contactsAction';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://65834a664d1ee97c6bcdc8b8.mockapi.io/';
